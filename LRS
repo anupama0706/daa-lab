@@ -1,0 +1,36 @@
+def lrs_with_steps(X):
+    m = len(X)
+    dp = [[0 for _ in range(m + 1)] for _ in range(m + 1)]
+    print("LCS Calculation Steps")
+    print(f"String 1 length {m}")
+    print(f"String 2 length {m}\n")
+    for i in range(m + 1):
+        for j in range(m + 1):
+            if i == 0 or j == 0:
+                dp[i][j] = 0
+            elif X[i - 1] == X[j - 1] and i != j:
+                print(f"Step: Comparing X[{i-1}] ('{X[i-1]}') and X[{j-1}] ('{X[j-1]}'). MATCH!")
+                dp[i][j] = dp[i - 1][j - 1] + 1
+                print(f"   dp[{i}][{j}] = 1 + dp[{i-1}][{j-1}] = 1 + {dp[i-1][j-1]} = {dp[i][j]}")   
+            else:
+                print(f"Step: Comparing X[{i-1}] ('{X[i-1]}') and X[{j-1}] ('{X[j-1]}'). NOT A MATCH.")
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+                print(f"   dp[{i}][{j}] = max(dp[{i-1}][{j}], dp[{i}][{j-1}]) = max({dp[i-1][j]}, {dp[i][j-1]}) = {dp[i][j]}")
+    
+    print("\nDP Table Filled")
+    print("    ", end="")
+    for c in X:
+        print(f" {c}", end="")
+    print()
+    for i in range(m + 1):
+        if i == 0:
+            print("  ", end=" ")
+        else:
+            print(f"{X[i-1]}", end=" ")
+        for j in range(m + 1):
+            print(f"{dp[i][j]}", end=" ")
+        print()
+    print(f"\nFinal Length of LRS: {dp[m][m]}")
+    return dp[m][m]
+X_string = "AABEBCDD"
+lrs_with_steps(X_string)
