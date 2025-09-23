@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <limits.h>
+int max(int a, int b) {
+return (a > b) ? a : b;
+}
+struct Result {
+int sum;
+int low;
+int high;
+};
+struct Result max_crossing_sum(int arr[], int low, int mid, int high) {
+int left_sum = INT_MIN;
+int sum = 0;
+int max_left = mid;
+for (int i = mid; i >= low; i--) {
+sum += arr[i];
+if (sum > left_sum) {
+left_sum = sum;
+max_left = i;
+}
+}
+int right_sum = INT_MIN;
+sum = 0;
+int max_right = mid + 1;
+for (int i = mid + 1; i <= high; i++) {
+sum += arr[i];
+if (sum > right_sum) {
+right_sum = sum;
+max_right = i;
+}
+}
+
+struct Result result;
+result.sum = left_sum + right_sum;
+result.low = max_left;
+result.high = max_right;
+printf("\nCSS %d to %d (mid: %d)\n", low, high, mid);
+return result;
+}
+struct Result max_subarray_sum(int arr[], int low, int high) {
+if (low == high) {
+struct Result result = {arr[low], low, high};
+printf("\n Base Case: %d to %d, sum: %d\n", low, high, arr[low]);
+return result;
+}
+int mid = (low + high) / 2;
+struct Result lss = max_subarray_sum(arr, low, mid);
+printf("\nLSS %d to %d is %d (indices: %d to %d)\n", low, mid, lss.sum, lss.low,
+lss.high);
+struct Result rss = max_subarray_sum(arr, mid + 1, high);
+printf("\n RSS %d to %d is %d (indices: %d to %d)\n", mid + 1, high, rss.sum, rss.low,
+rss.high);
+struct Result css = max_crossing_sum(arr, low, mid, high);
+if (lss.sum >= rss.sum && lss.sum >= css.sum) {
+return lss;
+} else if (rss.sum >= lss.sum && rss.sum >= css.sum) {
+return rss;
+} else {
+return css;
+}
+}
+int main() {
+int arr[] = {13, -3, -25, 20, -3};
+int n = sizeof(arr) / sizeof(arr[0]);
+printf(" Maximum Subarray Sum for the array:\n");
+for (int i = 0; i < n; i++) {
+printf("%d ", arr[i]);
+}
+struct Result final_result = max_subarray_sum(arr, 0, n - 1);
+
+printf("Final Result:\n");
+printf("The maximum subarray sum is: %d\n", final_result.sum);
+printf("The subarray is from index %d to %d\n", final_result.low, final_result.high);
+return 0;
+}
