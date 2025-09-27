@@ -1,7 +1,7 @@
 def lrs_with_steps(X):
     m = len(X)
     dp = [[0 for _ in range(m + 1)] for _ in range(m + 1)]
-    print("LCS Calculation Steps")
+    print("LRS Calculation Steps")
     print(f"String 1 length {m}")
     print(f"String 2 length {m}\n")
     for i in range(m + 1):
