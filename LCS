@@ -33,6 +33,6 @@ def lcs_with_steps(X, Y):
         print()
     print(f"\nFinal Length of LCS: {dp[m][n]}")
     return dp[m][n]
-X_string = "XMJYAVZ"
-Y_string = "MZJAWXV"
+X_string = "AGCCCTAAGGGCTACCTAGCTT"
+Y_string = "GACAGCCTACAAGCGTTAGCTTG"
 lcs_with_steps(X_string, Y_string)
